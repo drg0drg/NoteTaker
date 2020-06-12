@@ -24,6 +24,11 @@ app.get("/", function (req, res) {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
+//------------------------------------------
+//---------Routes for API methods-----------
+//------------------------------------------
+
+
 app.get("/api/notes", async function (req, res) {
   try {
     const dataBaseLocation = path.join(__dirname, "db", "db.json");
