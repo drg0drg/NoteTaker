@@ -6,9 +6,9 @@ class Note {
     this.noteContent = noteContent;
   }
 
-  returnNote() {
+  getNote() {
     const noteToBeParsed = `{"noteId": "${this.noteId}", "noteTitle": "${this.noteTitle}", "noteContent":"${this.noteContent}"}`;
-
-    return JSON.parse(noteToBeParsed);
+    const parsedNote = JSON.parse(noteToBeParsed);
+    return parsedNote;
   }
 }

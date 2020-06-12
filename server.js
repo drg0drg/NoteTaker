@@ -39,4 +39,9 @@ app.post("/api/notes", function (req, res){
   const numberOfExistingNotes = parsedDataBase.length;
   const newNoteID = numberOfExistingNotes +1; 
   const newNote = new Note (newNoteID, req.body.noteTitle, req.body.noteContent);
+  const parsedNewNote = newNote.getNote();
+  parsedDataBase.push(parsedNewNote);
+  const stringifiedDataBase = JSON.stringify(parsedDataBase);
+  writeFileAsync(dataBaseLocation, stringifiedDataBase);
+  return res.send(newNote);
 })
