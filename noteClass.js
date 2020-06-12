@@ -1,6 +1,5 @@
-
 class Note {
-  constructor (noteId, noteTitle, noteContent){
+  constructor(noteId, noteTitle, noteContent) {
     this.noteId = noteId;
     this.noteTitle = noteTitle;
     this.noteContent = noteContent;
