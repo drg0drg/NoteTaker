@@ -40,7 +40,7 @@ app.get("/api/notes", async function (req, res) {
   }
 });
 
-app.post("/api/notes", function (req, res) {
+app.post("/api/notes", async function (req, res) {
   try {
     const dataBaseLocation = path.join(__dirname, "db", "db.json");
     const dataBaseInfo = await readFileAsync(dataBaseLocation);
@@ -56,4 +56,9 @@ app.post("/api/notes", function (req, res) {
   } catch (error) {
     console.log(error);
   }
+});
+
+
+app.listen(PORT, function() {
+  console.log("App listening on PORT " + PORT);
 });
