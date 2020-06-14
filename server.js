@@ -46,7 +46,8 @@ app.post("/api/notes", async function (req, res) {
     const dataBaseInfo = await readFileAsync(dataBaseLocation);
     const parsedDataBase = JSON.parse(dataBaseInfo);
     const numberOfExistingNotes = parsedDataBase.length;
-    const newNoteID = numberOfExistingNotes + 1;
+    const newNoteID = getNewNoteID(parsedDataBase);
+
     const newNote = new Note(newNoteID, req.body.title, req.body.text);
     const parsedNewNote = newNote.getNote();
     parsedDataBase.push(parsedNewNote);
@@ -55,9 +56,10 @@ app.post("/api/notes", async function (req, res) {
       dataBaseLocation,
       stringifiedDataBase
     );
-    return res.send(newNote);
+    return res.status(200).send(newNote);
   } catch (error) {
     console.log(error);
+    return res.status(404).send("Data not found");
   }
 });
 
@@ -70,9 +72,10 @@ app.delete("/api/notes/:id", async (req, res) => {
     const newData = parsedDataBase.filter((note) => note.id !== noteId);
     const stringifiedDataBase = JSON.stringify(newData);
     await writeFileAsync(dataBaseLocation, stringifiedDataBase);
-    res.json(newData);
+    res.status(200).send("Note has been deleted");
   } catch (error) {
     console.log(error);
+    return res.status(404).send("Data not found");
   }
 });
 
@@ -80,3 +83,22 @@ app.listen(PORT, function () {
   console.log("App listening on PORT " + PORT);
 });
 
+
+
+function getNewNoteID (parsedDataBase) {
+  let newNoteID = 0;
+  if (parsedDataBase && parsedDataBase.length>0) {
+    let IDArray = parsedDataBase.map(a => a.id);
+
+    let max = IDArray.reduce(function(a, b) {
+      return Math.max(a, b);
+    });
+  
+    newNoteID = max + 1;
+    
+  } else { 
+    newNoteID = 1;
+  }
+  return newNoteID;
+
+}
