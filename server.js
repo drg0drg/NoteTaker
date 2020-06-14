@@ -18,11 +18,11 @@ app.use(express.json());
 //------------------------------------------
 app.use(express.static(__dirname + "/public"));
 
-app.get("/notes", function (req, res) {
+app.get("/notes", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "notes.html"));
 });
 
-app.get("/", function (req, res) {
+app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
@@ -30,7 +30,7 @@ app.get("/", function (req, res) {
 //---------Routes for API methods-----------
 //------------------------------------------
 
-app.get("/api/notes", async function (req, res) {
+app.get("/api/notes", async (req, res) => {
   try {
     //reading the db.json file
     const dataBaseLocation = path.join(__dirname, "db", "db.json");
@@ -46,7 +46,7 @@ app.get("/api/notes", async function (req, res) {
 });
 
 //API route with delete method
-app.post("/api/notes", async function (req, res) {
+app.post("/api/notes", async (req, res) => {
   try {
     //reading the db.json file
     const dataBaseLocation = path.join(__dirname, "db", "db.json");
@@ -90,33 +90,29 @@ app.delete("/api/notes/:id", async (req, res) => {
   }
 });
 
-
-
 //------------------------------------------
 //---------Listener for server--------------
 //------------------------------------------
 
-app.listen(PORT, function () {
+app.listen(PORT, () => {
   console.log("App listening on PORT " + PORT);
 });
 
-
 //Function to create ID for a new note
-function getNewNoteID (parsedDataBase) {
+function getNewNoteID(parsedDataBase) {
   //initialize the new note ID with zero
   let newNoteID = 0;
   //if <parsedDataBase> exists AND has at least one object
-  if (parsedDataBase && parsedDataBase.length>0) {
+  if (parsedDataBase && parsedDataBase.length > 0) {
     //pull all the id's from all the objects and store them into IDArray
-    let IDArray = parsedDataBase.map(a => a.id);
+    let IDArray = parsedDataBase.map((a) => a.id);
     //Method to determine the max ID in the array
-    let max = IDArray.reduce(function(a, b) {
+    let max = IDArray.reduce(function (a, b) {
       return Math.max(a, b);
     });
     //Always increment the noteID. Each note will have a different ID
     newNoteID = max + 1;
-    
-  } else { 
+  } else {
     //set the note ID
     newNoteID = 1;
   }
