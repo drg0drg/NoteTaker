@@ -46,10 +46,9 @@ Please access the link:
 
 Demo: 
 
+![NoteTaker](https://user-images.githubusercontent.com/60710786/84603471-a4aeef00-ae86-11ea-85eb-7f1a33711b0f.gif)
 
 
-
-    
 
 ## Tests
     
