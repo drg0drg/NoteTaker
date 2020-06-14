@@ -51,7 +51,10 @@ app.post("/api/notes", async function (req, res) {
     const parsedNewNote = newNote.getNote();
     parsedDataBase.push(parsedNewNote);
     const stringifiedDataBase = JSON.stringify(parsedDataBase);
-    const dataBase = await writeFileAsync(dataBaseLocation,stringifiedDataBase);
+    const dataBase = await writeFileAsync(
+      dataBaseLocation,
+      stringifiedDataBase
+    );
     return res.send(newNote);
   } catch (error) {
     console.log(error);
@@ -65,22 +68,6 @@ app.delete("/api/notes/:id", async (req, res) => {
     const parsedDataBase = JSON.parse(dataBaseInfo);
     const noteId = req.params.id;
     const newData = parsedDataBase.filter((note) => note.id !== noteId);
-    console.log(newData);
-    const newDataReorder = newData;
-
-    // for (let i = noteId -1; i<newData.length -1; i++) {
-    //   console.log(newData[i]);
-    //   newData[i] = newData[i+1]
-    //   newData[i].id = parseInt(i)+1
-
-    // }
-
-    // for (let i = noteId -1; i<newData.length -1; i++) {
-    //   newDataReorder[i].id = 1
-    // }
-
-    console.log(newData);
-    // newDataReordered.push(newData)
     const stringifiedDataBase = JSON.stringify(newData);
     await writeFileAsync(dataBaseLocation, stringifiedDataBase);
     res.json(newData);
@@ -92,3 +79,4 @@ app.delete("/api/notes/:id", async (req, res) => {
 app.listen(PORT, function () {
   console.log("App listening on PORT " + PORT);
 });
+

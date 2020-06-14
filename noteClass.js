@@ -10,5 +10,6 @@ class Note {
     const parsedNote = JSON.parse(noteToBeParsed);
     return parsedNote;
   }
+
 }
 module.exports = Note ;
