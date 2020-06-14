@@ -51,10 +51,7 @@ app.post("/api/notes", async function (req, res) {
     const parsedNewNote = newNote.getNote();
     parsedDataBase.push(parsedNewNote);
     const stringifiedDataBase = JSON.stringify(parsedDataBase);
-    const dataBase = await writeFileAsync(
-      dataBaseLocation,
-      stringifiedDataBase
-    );
+    const dataBase = await writeFileAsync(dataBaseLocation,stringifiedDataBase);
     return res.send(newNote);
   } catch (error) {
     console.log(error);
@@ -63,14 +60,11 @@ app.post("/api/notes", async function (req, res) {
 
 app.delete("/api/notes/:id", async (req, res) => {
   try {
+    const dataBaseLocation = path.join(__dirname, "db", "db.json");
+    const dataBaseInfo = await readFileAsync(dataBaseLocation);
+    const parsedDataBase = JSON.parse(dataBaseInfo);
     const noteId = req.params.id;
-    console.log(noteId);
-    const rawData = await readFileAsync("./db/db.json", "utf-8");
-    console.log(rawData);
-    const parseData = JSON.parse(rawData);
-    // const {id} = req.params.id;
-    // console.log(id)
-    const newData = parseData.filter((note) => note.id !== noteId);
+    const newData = parsedDataBase.filter((note) => note.id !== noteId);
     console.log(newData);
     const newDataReorder = newData;
 
@@ -78,20 +72,18 @@ app.delete("/api/notes/:id", async (req, res) => {
     //   console.log(newData[i]);
     //   newData[i] = newData[i+1]
     //   newData[i].id = parseInt(i)+1
-     
+
     // }
 
-    for (let i = noteId -1; i<newData.length -1; i++) {
-      newDataReorder[i].id = 
-    }
+    // for (let i = noteId -1; i<newData.length -1; i++) {
+    //   newDataReorder[i].id = 1
+    // }
 
-    
-    console.log(newData)
+    console.log(newData);
     // newDataReordered.push(newData)
-    fs.writeFile("./db/db.json", JSON.stringify(newData), (err) => {
-      if (err) console.log(err);
-      res.json(newData);
-    });
+    const stringifiedDataBase = JSON.stringify(newData);
+    await writeFileAsync(dataBaseLocation, stringifiedDataBase);
+    res.json(newData);
   } catch (error) {
     console.log(error);
   }
