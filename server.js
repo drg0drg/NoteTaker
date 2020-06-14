@@ -3,7 +3,9 @@ const util = require("util");
 const fs = require("fs");
 const path = require("path");
 const app = express();
+
 //setting up port for Heroku. <process.env.PORT> --> Heroku uses it's own port.
+
 const PORT = process.env.PORT || 8080;
 const Note = require("./noteClass");
 
